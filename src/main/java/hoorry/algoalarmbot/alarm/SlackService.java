@@ -21,16 +21,17 @@ public class SlackService {
 
 	private final String token = System.getenv("SLACK_BOT_TOKEN");
 	private final String channel = "C03EUE9HLDA";
-	private int memberCount = 7;
-	private Queue<String> members = new LinkedList<>();
+	private final Members members;
 
-	public void sendAlertMessage() {
-		loadMembers();
-		postSlackMessage();
-		saveMembers();
+	public SlackService(Members members) {
+		this.members = members;
 	}
 
-	private void postSlackMessage() {
+	public void sendAlertMessage() {
+		postSlackMessage();
+	}
+
+	public void postSlackMessage() {
 		try {
 			MethodsClient methods = Slack.getInstance().methods(token);
 			ChatPostMessageRequest request = ChatPostMessageRequest.builder()
@@ -46,40 +47,13 @@ public class SlackService {
 	}
 
 	private String createAlertMessage() throws IOException {
-		return "<@" + getThisTurn() + "> [" + LocalDate.now()
+		return "<@" + members.getThisTurn() + "> [" + LocalDate.now()
 			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 			+ "] 문제 제출해주세요!!🚨🚨🚨";
 	}
 
 
-	private String getThisTurn() {
-		return members.peek();
-	}
 
-	private void loadMembers() {
-		try (BufferedReader br = new BufferedReader(new FileReader("sequence.txt"))) {
-			while (memberCount-- > 0) {
-				members.offer(br.readLine());
-			}
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
-	}
 
-	private void saveMembers() {
-		changeSequence();
-		try (FileWriter writer = new FileWriter("sequence.txt", false)) {
-			for (String n : members) {
-				writer.write(n);
-				writer.write('\n');
-			}
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
-	}
-
-	private void changeSequence() {
-		members.offer(members.poll());
-	}
 
 }
