@@ -4,14 +4,9 @@ import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
-import java.util.Queue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +20,6 @@ public class SlackService {
 
 	public SlackService(Members members) {
 		this.members = members;
-	}
-
-	public void sendAlertMessage() {
-		postSlackMessage();
 	}
 
 	public void postSlackMessage() {
@@ -51,9 +42,5 @@ public class SlackService {
 			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 			+ "] 문제 제출해주세요!!🚨🚨🚨";
 	}
-
-
-
-
 
 }
