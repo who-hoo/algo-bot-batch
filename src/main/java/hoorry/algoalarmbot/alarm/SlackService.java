@@ -8,11 +8,13 @@ import com.slack.api.model.block.element.ImageElement;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import static com.slack.api.model.block.composition.BlockCompositions.*;
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static com.slack.api.model.block.Blocks.*;
+import static com.slack.api.model.block.Blocks.asBlocks;
+import static com.slack.api.model.block.Blocks.section;
+import static com.slack.api.model.block.composition.BlockCompositions.markdownText;
 
 @Service
 @Slf4j
@@ -21,6 +23,7 @@ public class SlackService {
 	private final String token = System.getenv("SLACK_BOT_TOKEN");
 	private final String channel = "C03EUE9HLDA";
 	private final Members members;
+	private final Random random = new Random();
 
 	public SlackService(Members members) {
 		this.members = members;
@@ -29,15 +32,18 @@ public class SlackService {
 	public void postSlackMessage() {
 		try {
 			MethodsClient methods = Slack.getInstance().methods(token);
-			String alertMessage = createAlertMessage();
+			String thisTurn = members.getThisTurn();
+			String imageName = thisTurn + random.nextInt(5) + ".png";
+
+			String alertMessage = createAlertMessage(thisTurn);
 			ChatPostMessageRequest request = ChatPostMessageRequest.builder()
 				.channel(channel)
 				.text(alertMessage)
 				.blocks(asBlocks(
 					section(section -> section.text(markdownText(alertMessage))
 							.accessory(ImageElement.builder()
-							.imageUrl("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA0MjRfMjI2%2FMDAxNjUwNzgyNTY4NTQ1.yFg8zmQ_BCcF0d1kwqTwruNPjRuHRYn7yfuQvJOwBOIg.zZeOvkzVHlSiQAAMSY4uJpRj6dskBv0UB81bhWE7gBEg.JPEG.lbhcook%2FKakaoTalk_20220412_124754714_21.jpg&type=a340")
-							.altText("cute dog")
+							.imageUrl("s3 주소 앞부분" + imageName)
+							.altText(imageName)
 							.build())
 					)
 				))
@@ -50,8 +56,8 @@ public class SlackService {
 		}
 	}
 
-	private String createAlertMessage() {
-		return "<@" + members.getThisTurn() + "> [" + LocalDate.now()
+	private String createAlertMessage(String thisTurn) {
+		return "<@" + thisTurn + "> [" + LocalDate.now()
 			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 			+ "] 문제 제출해주세요!!🚨🚨🚨";
 	}
