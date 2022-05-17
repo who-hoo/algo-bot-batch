@@ -1,9 +1,10 @@
 package hoorry.algoalarmbot.alarm;
 
+import hoorry.algoalarmbot.common.MyFileWriter;
+import hoorry.algoalarmbot.common.TxtFileWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 public class Members {
 
 	private final File file = new File(System.getenv("SEQUENCE_PATH"));
-	private int memberCount = 7;
 	private final Queue<String> memberz;
 
 	public Members() {
@@ -23,24 +23,18 @@ public class Members {
 
 	private void loadMembers() {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			while (memberCount-- > 0) {
-				memberz.offer(br.readLine());
+			String line;
+			while ((line = br.readLine()) != null) {
+				memberz.offer(line);
 			}
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
 	}
 
-	private void saveMembers() {
+	private void saveMembers(MyFileWriter<String> fileWriter) {
 		changeSequence();
-		try (FileWriter writer = new FileWriter(file, false)) {
-			for (String n : memberz) {
-				writer.write(n);
-				writer.write('\n');
-			}
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
+		fileWriter.write(file, memberz);
 	}
 
 	private void changeSequence() {
@@ -49,7 +43,7 @@ public class Members {
 
 	public String getThisTurn() {
 		String thisTurn = memberz.peek();
-		saveMembers();
+		saveMembers(new TxtFileWriter<>());
 		return thisTurn;
 	}
 
