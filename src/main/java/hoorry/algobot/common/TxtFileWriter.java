@@ -14,7 +14,7 @@ public class TxtFileWriter<T> implements MyFileWriter<T> {
 		try (FileWriter writer = new FileWriter(file, false)) {
 			for (T content : contents) {
 				writer.write(String.valueOf(content));
-				writer.write('\n');
+				writer.write(System.lineSeparator());
 			}
 		} catch (IOException e) {
 			log.error(e.getMessage());
