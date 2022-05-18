@@ -33,7 +33,8 @@ public class SlackService {
 		try {
 			MethodsClient methods = Slack.getInstance().methods(token);
 			String thisTurn = members.getThisTurn();
-			String imageName = thisTurn + random.nextInt(5) + ".png";
+			String imageName = thisTurn + (random.nextInt(5) + 1) + ".png";
+			String preURL = "https://s3.ap-northeast-2.amazonaws.com/www.jerry.io/s3image/";
 
 			String alertMessage = createAlertMessage(thisTurn);
 			ChatPostMessageRequest request = ChatPostMessageRequest.builder()
@@ -42,7 +43,7 @@ public class SlackService {
 				.blocks(asBlocks(
 					section(section -> section.text(markdownText(alertMessage))
 							.accessory(ImageElement.builder()
-							.imageUrl("s3 주소 앞부분" + imageName)
+							.imageUrl(preURL + imageName)
 							.altText(imageName)
 							.build())
 					)
