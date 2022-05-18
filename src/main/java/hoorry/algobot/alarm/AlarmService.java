@@ -18,18 +18,18 @@ import static com.slack.api.model.block.composition.BlockCompositions.markdownTe
 
 @Service
 @Slf4j
-public class SlackService {
+public class AlarmService {
 
 	private final String token = System.getenv("SLACK_BOT_TOKEN");
 	private final String channel = "C03EUE9HLDA";
 	private final Members members;
 	private final Random random = new Random();
 
-	public SlackService(Members members) {
+	public AlarmService(Members members) {
 		this.members = members;
 	}
 
-	public void postSlackMessage() {
+	public void postAlarm() {
 		try {
 			MethodsClient methods = Slack.getInstance().methods(token);
 			String thisTurn = members.getThisTurn();
