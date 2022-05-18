@@ -1,6 +1,6 @@
-package hoorry.algoalarmbot.crawling;
+package hoorry.algobot.crawling;
 
-import hoorry.algoalarmbot.common.MyFileWriter;
+import hoorry.algobot.common.MyFileWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

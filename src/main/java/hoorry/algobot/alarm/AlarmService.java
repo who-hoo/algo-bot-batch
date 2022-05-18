@@ -1,4 +1,4 @@
-package hoorry.algoalarmbot.alarm;
+package hoorry.algobot.alarm;
 
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;

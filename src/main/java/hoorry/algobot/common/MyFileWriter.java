@@ -1,4 +1,4 @@
-package hoorry.algoalarmbot.common;
+package hoorry.algobot.common;
 
 import java.io.File;
 import java.util.Collection;

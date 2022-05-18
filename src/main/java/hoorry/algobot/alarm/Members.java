@@ -1,7 +1,7 @@
-package hoorry.algoalarmbot.alarm;
+package hoorry.algobot.alarm;
 
-import hoorry.algoalarmbot.common.MyFileWriter;
-import hoorry.algoalarmbot.common.TxtFileWriter;
+import hoorry.algobot.common.MyFileWriter;
+import hoorry.algobot.common.TxtFileWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

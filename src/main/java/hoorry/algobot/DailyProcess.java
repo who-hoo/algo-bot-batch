@@ -1,9 +1,9 @@
-package hoorry.algoalarmbot;
+package hoorry.algobot;
 
-import hoorry.algoalarmbot.alarm.Members;
 import hoorry.algoalarmbot.alarm.SlackService;
-import hoorry.algoalarmbot.common.TxtFileWriter;
-import hoorry.algoalarmbot.crawling.Crawler;
+import hoorry.algobot.alarm.Members;
+import hoorry.algobot.common.TxtFileWriter;
+import hoorry.algobot.crawling.Crawler;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
