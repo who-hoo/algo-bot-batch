@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Alarm {
+public class DailyProcess {
 
 	public static void main(String[] args) throws IOException {
 		DayOfWeek today = LocalDate.now().getDayOfWeek();
