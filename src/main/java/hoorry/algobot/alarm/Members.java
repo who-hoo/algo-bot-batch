@@ -1,11 +1,10 @@
 package hoorry.algobot.alarm;
 
+import hoorry.algobot.common.MyFileReader;
 import hoorry.algobot.common.MyFileWriter;
+import hoorry.algobot.common.TxtFileReader;
 import hoorry.algobot.common.TxtFileWriter;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import lombok.extern.slf4j.Slf4j;
@@ -14,22 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 public class Members {
 
 	private final File file = new File(System.getenv("SEQUENCE_PATH"));
-	private final Queue<String> memberz;
+	private Queue<String> memberz;
 
 	public Members() {
-		memberz = new LinkedList<>();
-		loadMembers();
+		loadMembers(new TxtFileReader<>());
 	}
 
-	private void loadMembers() {
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				memberz.offer(line);
-			}
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
+	private void loadMembers(MyFileReader<String> fileReader) {
+		memberz = new LinkedList<>(fileReader.read(file, " ", args -> args[0]));
 	}
 
 	private void saveMembers(MyFileWriter<String> fileWriter) {
