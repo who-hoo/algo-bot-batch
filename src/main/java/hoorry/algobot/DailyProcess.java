@@ -14,7 +14,7 @@ public class DailyProcess {
 
 	public static void main(String[] args) throws IOException {
 		DayOfWeek today = LocalDate.now().getDayOfWeek();
-		if (today == DayOfWeek.MONDAY || today == DayOfWeek.THURSDAY) {
+		if (today == DayOfWeek.WEDNESDAY || today == DayOfWeek.FRIDAY) {
 			AlarmService alarmService = new AlarmService(new Members());
 			alarmService.postAlarm();
 		}
