@@ -57,10 +57,35 @@ public class AlarmService {
 		}
 	}
 
+	public void postAlarmOfDeadline() {
+		try {
+			MethodsClient methods = Slack.getInstance().methods(token);
+			String alertMessage = createDeadLineAlertMessage();
+			ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+				.channel(channel)
+				.text(alertMessage)
+				.blocks(asBlocks(
+					section(section -> section.text(markdownText(alertMessage)))
+				))
+				.build();
+
+			methods.chatPostMessage(request);
+
+		} catch (SlackApiException | IOException e) {
+			log.error(e.getMessage());
+		}
+	}
+
 	private String createAlertMessage(String thisTurn) {
 		return "<@" + thisTurn + "> [" + LocalDate.now()
 			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 			+ "] 문제 제출해주세요!!🚨🚨🚨";
+	}
+
+	private String createDeadLineAlertMessage() {
+		return "<@channel> [" + LocalDate.now()
+			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+			+ "] 제출 마감일 오늘 자정까지입니다!!\uD83D\uDCB8\uD83D\uDCB8\uD83D\uDCB8";
 	}
 
 }
