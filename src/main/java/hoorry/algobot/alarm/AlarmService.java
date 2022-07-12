@@ -83,7 +83,7 @@ public class AlarmService {
 	}
 
 	private String createDeadLineAlertMessage() {
-		return "<@channel> [" + LocalDate.now()
+		return "<!everyone> [" + LocalDate.now()
 			.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 			+ "] 제출 마감일 오늘 자정까지입니다!!\uD83D\uDCB8\uD83D\uDCB8\uD83D\uDCB8";
 	}
