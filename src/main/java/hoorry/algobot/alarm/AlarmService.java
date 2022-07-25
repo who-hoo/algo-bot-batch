@@ -34,7 +34,7 @@ public class AlarmService {
 			MethodsClient methods = Slack.getInstance().methods(token);
 			String thisTurn = members.getThisTurn();
 			String imageName = thisTurn + (random.nextInt(5) + 1) + ".png";
-			String preURL = "https://s3.ap-northeast-2.amazonaws.com/www.jerry.io/s3image/";
+			String preURL = "https://who-hoo-s3.s3.ap-northeast-2.amazonaws.com/algo-bot/";
 
 			String alertMessage = createAlertMessage(thisTurn);
 			ChatPostMessageRequest request = ChatPostMessageRequest.builder()
